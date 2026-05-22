@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// The Single Admin/Client
+model User {
+  id         String      @id @default(cuid())
+  name       String?
+  email      String      @unique
+  timeZone   String      @default("UTC")
+  eventTypes EventType[]
+  schedules  Schedule[]
+  bookings   Booking[]
+}
+
+// A bookable event variant (e.g. "30-min Call")
+model EventType {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String?
+  duration    Int       // minutes
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  bookings    Booking[]
+}
+
+// A collection of availability windows
+model Schedule {
+  id           String         @id @default(cuid())
+  name         String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  availability Availability[]
+}
+
+// Specific time windows for days of the week
+model Availability {
+  id         String   @id @default(cuid())
+  dayOfWeek  Int      // 0-6 (Sunday to Saturday)
+  startTime  String   // format "HH:mm" (e.g. "09:00")
+  endTime    String   // format "HH:mm" (e.g. "17:00")
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+}
+
+// A confirmed appointment
+model Booking {
+  id                String    @id @default(cuid())
+  startTime         DateTime
+  endTime           DateTime
+  attendeeName      String
+  attendeeEmail     String
+  attendeeTimeZone  String
+  eventTypeId       String
+  eventType         EventType @relation(fields: [eventTypeId], references: [id])
+  userId            String
+  user              User      @relation(fields: [userId], references: [id])
+  createdAt         DateTime  @default(now())
+}
