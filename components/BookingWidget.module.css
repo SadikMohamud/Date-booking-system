@@ -1,0 +1,109 @@
+/* Layout for the booking form. Colours and type come from the page's CSS
+   variables (--bg, --fg, --accent, --muted), so the form wears the site's
+   brand. Falls back to plain values when they are not set. */
+
+.form {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 36rem;
+  color: var(--fg, #111);
+}
+
+.row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.row label,
+.slots legend {
+  font-weight: 600;
+}
+
+.form input,
+.form select,
+.form textarea {
+  font: inherit;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--fg, #111) 30%, transparent);
+  border-radius: 0.5rem;
+  background: var(--bg, #fff);
+  color: var(--fg, #111);
+}
+
+.form :focus-visible {
+  outline: 3px solid var(--accent, #2457ff);
+  outline-offset: 2px;
+}
+
+.slots {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slots legend {
+  margin-bottom: 0.5rem;
+}
+
+.slot {
+  font: inherit;
+  min-width: 5.5rem;
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--fg, #111) 30%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.slot[aria-pressed='true'] {
+  background: var(--accent, #2457ff);
+  border-color: var(--accent, #2457ff);
+  color: var(--bg, #fff);
+}
+
+.hint {
+  color: var(--muted, #555);
+  margin: 0;
+}
+
+.submit {
+  font: inherit;
+  font-weight: 600;
+  min-height: 48px;
+  padding: 0.8rem 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent, #2457ff);
+  color: var(--bg, #fff);
+  cursor: pointer;
+  justify-self: start;
+}
+
+.submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  font-weight: 600;
+}
+
+.done .title {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Off screen, not display: none, so bots that skip hidden fields still see it. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
