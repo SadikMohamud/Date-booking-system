@@ -20,7 +20,7 @@ export interface Db {
 }
 
 export interface Mailer {
-  send(m: { to: string; subject: string; text: string; ics?: string; idempotencyKey: string }): Promise<void>;
+  send(m: { to: string; subject: string; text: string; ics?: string; replyTo?: string; idempotencyKey: string }): Promise<void>;
 }
 
 export interface BookingDeps {

@@ -17,6 +17,7 @@ export function resendMailer(apiKey: string, from: string, f: typeof fetch = fet
           to: [m.to],
           subject: m.subject,
           text: m.text,
+          reply_to: m.replyTo,
           attachments: m.ics ? [{ filename: 'booking.ics', content: Buffer.from(m.ics).toString('base64'), content_type: 'text/calendar' }] : undefined,
         }),
       });
